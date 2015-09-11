@@ -1,0 +1,20 @@
+#!/bin/sh
+
+CUR=${2:-$(pfw)}
+ROOT=$(lsw -r)
+SW=$(wattr w $ROOT)
+SH=$(wattr h $ROOT)
+
+BW=$(wattr b $CUR)
+W=$(wattr w $CUR)
+H=$(wattr h $CUR)
+
+case $1 in
+	tl) X=0 Y=0 ;;
+    tr) X=$((SW - W - BW*2)) Y=0 ;;
+    bl) X=0 Y=$((SH - H - BW*2)) ;;
+    br) X=$((SW - W - BW*2)) Y=$((SH - H - BW*2)) ;;
+	*) echo "no position specified" ;;
+esac
+
+wtp $X $Y $W $H $CUR

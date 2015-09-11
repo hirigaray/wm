@@ -1,0 +1,26 @@
+#!/bin/sh
+# toggle the fullscreen state of a window
+
+# this file is used to store the previous geometry of a window
+FSFILE=$TMPDIR/wm/fwin
+
+# if any window is fullscreened, unset its state
+# so no window will lose their previous geometry info
+test -f $FSFILE && wtp $(cat $FSFILE)
+
+# if this file exists and contains a window id, that window is fullscreened
+if test -f $FSFILE && grep -q $1 $FSFILE; then
+	# if the window removed was already fullscreened
+	# delete the file, so it is fullscreenable again
+	rm -f $FSFILE
+else
+	# fullscreen the current window
+	wtp $(wattr xywh `lsw -r`) $1
+	# save geometry and id
+	wattr xywhi $1 > $FSFILE
+	# remove borders from window
+	chwb -s 0 $1
+fi
+
+# focus the window
+focusw $1
