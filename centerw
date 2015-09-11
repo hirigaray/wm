@@ -1,4 +1,5 @@
 #!/bin/sh
+# center current window
 
 # get current window id, width and height
 WID=$(pfw)

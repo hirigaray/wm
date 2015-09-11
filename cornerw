@@ -1,4 +1,5 @@
 #!/bin/sh
+# put current window into a corner
 
 CUR=${2:-$(pfw)}
 ROOT=$(lsw -r)
