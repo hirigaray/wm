@@ -1,6 +1,10 @@
 #!/bin/sh
 # toggle the fullscreen state of a window
 
+# get height and width
+H=$(wattr h $(lsw -r))
+W=$(wattr w $(lsw -r))
+
 # this file is used to store the previous geometry of a window
 FSFILE=$TMPDIR/wm/fwin
 
@@ -14,12 +18,10 @@ if test -f $FSFILE && grep -q $1 $FSFILE; then
 	# delete the file, so it is fullscreenable again
 	rm -f $FSFILE
 else
-	# fullscreen the current window
-	wtp $(wattr xywh `lsw -r`) $1
 	# save geometry and id
 	wattr xywhi $1 > $FSFILE
-	# remove borders from window
-	chwb -s 0 $1
+	# fullscreen the current window
+	wtp $GAP $((PANELHEIGHT + GAP)) $((W - 2*GAP)) $((H - 2*GAP - PANELHEIGHT)) $1
 fi
 
 # focus the window

@@ -11,10 +11,10 @@ W=$(wattr w $CUR)
 H=$(wattr h $CUR)
 
 case $1 in
-	tl) X=0 Y=0 ;;
-    tr) X=$((SW - W - BW*2)) Y=0 ;;
-    bl) X=0 Y=$((SH - H - BW*2)) ;;
-    br) X=$((SW - W - BW*2)) Y=$((SH - H - BW*2)) ;;
+	tl) X=$GAP Y=$((GAP + PANELHEIGHT)) ;;
+	tr) X=$((SW - W - BW*2 - GAP)) Y=$((GAP + PANELHEIGHT)) ;;
+    bl) X=$GAP Y=$((SH - H - BW*2 - GAP)) ;;
+    br) X=$((SW - W - BW*2 - GAP)) Y=$((SH - H - BW*2 - $GAP)) ;;
 	*) echo "no position specified" ;;
 esac
 

@@ -1,16 +1,6 @@
 #!/bin/sh
 # window mangler
 
-# number of groups
-WNUMBER=5
-
-# root for group files
-WROOT=$TMPDIR/wm/groups.d
-
-# each file in $WSTATUS represents a group
-# if it contains 0, the group is inactive, if it contains 1, it's active.
-WSTATUS=$TMPDIR/wm/status.d
-
 usage() {
 	echo "$(basename $0) [-adsth <group number>]"
 }
