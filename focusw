@@ -1,6 +1,8 @@
 #!/bin/sh
 # focus wrapper that sets borders and can focus next/previous window
 
+BORDERWIDTH=$(cat $WMVARS/borderwidth)
+
 a=0xb8b8c8 # active border color
 i=0x1a1a26 # inactive border color
 

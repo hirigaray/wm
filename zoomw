@@ -1,27 +1,31 @@
 #!/bin/sh
-# toggle the fullscreen state of a window
+# zoom into a window
+
+GAP=$(cat $WMVARS/gaps)
+BORDERWIDTH=$(cat $WMVARS/borderwidth)
+PANELHEIGHT=$(cat $WMVARS/panelheight)
 
 # get height and width
 H=$(wattr h $(lsw -r))
 W=$(wattr w $(lsw -r))
 
 # this file is used to store the previous geometry of a window
-FSFILE=$TMPDIR/wm/fwin
+FSFILE=$TMPDIR/wm/zoom
 
-# if any window is fullscreened, unset its state
+# if any window is zoomed, unset its state
 # so no window will lose their previous geometry info
 test -f $FSFILE && wtp $(cat $FSFILE)
 
-# if this file exists and contains a window id, that window is fullscreened
+# if this file exists and contains a window id, that window is zoomed
 if test -f $FSFILE && grep -q $1 $FSFILE; then
-	# if the window removed was already fullscreened
-	# delete the file, so it is fullscreenable again
+	# if the window removed was already zoomed
+	# delete the file, so it is zoomable again
 	rm -f $FSFILE
 else
 	# save geometry and id
 	wattr xywhi $1 > $FSFILE
-	# fullscreen the current window
-	wtp $GAP $((PANELHEIGHT + GAP)) $((W - 2*GAP)) $((H - 2*GAP - PANELHEIGHT)) $1
+	# zoom the current window
+	wtp $GAP $((PANELHEIGHT + GAP)) $((W - 2*GAP - 2*BORDERWIDTH)) $((H - 2*GAP - PANELHEIGHT - 2*BORDERWIDTH)) $1
 fi
 
 # focus the window

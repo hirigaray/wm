@@ -1,28 +1,30 @@
 #!/bin/sh
 # window mangler
 
+WNUMBER=$(cat $WMVARS/groups)
+
 usage() {
 	echo "$(basename $0) [-adsth <group number>]"
 }
 
 addToGroup() {
-	:> $WROOT/$2/$1
+	:> $WGROUPS/$2/$1
 	showGroup $2
 }
 
 removeFromGroup() {
 	test "$2" = "all" \
-	&& rm -f $WROOT/*/$1 \
-	|| rm -f $WROOT/$2/$1
+	&& rm -f $WGROUPS/*/$1 \
+	|| rm -f $WGROUPS/$2/$1
 }
 
 findGroup() {
-	file=$(find $WROOT -name "$1")
+	file=$(find $WGROUPS -name "$1")
 	test -n "$file" && basename $(dirname $file)
 }
 
 showGroup() {
-	for file in $WROOT/$1/*; do
+	for file in $WGROUPS/$1/*; do
 			wid=$(basename $file)
 			mapw -m $wid
 	done
@@ -30,7 +32,7 @@ showGroup() {
 }
 
 hideGroup() {
-	for file in $WROOT/$1/*; do
+	for file in $WGROUPS/$1/*; do
 			wid=$(basename $file)
 			mapw -u $wid
 	done
@@ -38,7 +40,7 @@ hideGroup() {
 }
 
 toggleGroup() {
-	wid=$(ls -1 $WROOT/$1 | sed 1q)
+	wid=$(ls -1 $WGROUPS/$1 | sed 1q)
 
 	test -z "$wid" && return
 	wattr m $wid \
@@ -51,16 +53,16 @@ checkGroups() {
 		mkdir $WSTATUS
 	fi
 	for g in $(seq 1 $WNUMBER); do
-			test -d $WROOT/$g || mkdir -p $WROOT/$g
+			test -d $WGROUPS/$g || mkdir -p $WGROUPS/$g
 	done
 
-	for file in $(find $WROOT -type f); do
+	for file in $(find $WGROUPS -type f); do
 		wid=$(basename $file)
 		wattr $wid || rm -f $file
 	done
 
 	for ws in $(seq 1 $WNUMBER); do
-		if [ $(find $WROOT/$ws -maxdepth 0 -type d -empty) ]; then
+		if [ $(find $WGROUPS/$ws -maxdepth 0 -type d -empty) ]; then
 			echo 0 > $WSTATUS/$ws
 		fi
 	done
@@ -81,4 +83,4 @@ while getopts ":a:wd:gm:t:h:" opt; do
 done
 
 # in case no argument is given, display the whole tree
-test $# -eq 0 && tree --noreport $WROOT
+test $# -eq 0 && tree --noreport $WGROUPS
