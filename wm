@@ -1,7 +1,7 @@
 #!/bin/sh
 # window mangler
 
-WNUMBER=$(cat $WMVARS/groups)
+. $WMCONF
 
 usage() {
 	echo "$(basename $0) [-adsth <group number>]"
@@ -52,7 +52,7 @@ checkGroups() {
 	if [ ! -d $WSTATUS ]; then
 		mkdir $WSTATUS
 	fi
-	for g in $(seq 1 $WNUMBER); do
+	for g in $(seq 1 $GROUPS); do
 			test -d $WGROUPS/$g || mkdir -p $WGROUPS/$g
 	done
 
@@ -61,7 +61,7 @@ checkGroups() {
 		wattr $wid || rm -f $file
 	done
 
-	for ws in $(seq 1 $WNUMBER); do
+	for ws in $(seq 1 $GROUPS); do
 		if [ $(find $WGROUPS/$ws -maxdepth 0 -type d -empty) ]; then
 			echo 0 > $WSTATUS/$ws
 		fi

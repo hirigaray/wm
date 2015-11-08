@@ -1,11 +1,7 @@
 #!/bin/sh
 # zoom into a window
 
-GAP=$(cat $WMVARS/gaps)
-BORDERWIDTH=$(cat $WMVARS/borderwidth)
-PANELHEIGHT=$(cat $WMVARS/panelheight)
-
-# get height and width
+. $WMCONF
 H=$(wattr h $(lsw -r))
 W=$(wattr w $(lsw -r))
 

@@ -1,8 +1,7 @@
 #!/bin/sh
 # focus wrapper that sets borders and can focus next/previous window
 
-BORDERWIDTH=$(cat $WMVARS/borderwidth)
-
+. $WMCONF
 a=0xb8b8c8 # active border color
 i=0x1a1a26 # inactive border color
 
@@ -10,13 +9,8 @@ i=0x1a1a26 # inactive border color
 c=$(pfw)
 
 setborder() {
-	r=$(lsw -r)
-
 	# check if window exists
 	wattr $2 || return
-
-	# do not modify border of fullscreen windows
-	test "$(wattr xywh $2)" = "$(wattr xywh $r)" && return
 
 	case $1 in
 		active)   chwb -s$BORDERWIDTH -c$a $2 ;;

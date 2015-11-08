@@ -1,8 +1,7 @@
 #!/bin/sh
 # put current window into a corner
 
-GAP=$(cat $WMVARS/gaps)
-PANELHEIGHT=$(cat $WMVARS/panelheight)
+. $WMCONF
 
 CUR=${2:-$(pfw)}
 ROOT=$(lsw -r)

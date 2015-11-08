@@ -1,0 +1,7 @@
+#!/bin/sh
+# wm vars
+
+PANELHEIGHT=16
+BORDERWIDTH=2
+GROUPS=5
+GAP=24
