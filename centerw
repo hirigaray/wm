@@ -1,6 +1,8 @@
 #!/bin/sh
 # center current window
 
+. $WMCONF
+
 # get current window id, width and height
 WID=$(pfw)
 WW=$(wattr w $WID)
@@ -12,4 +14,4 @@ SW=$(wattr w $ROOT)
 SH=$(wattr h $ROOT)
 
 # move the current window to the center of the screen
-wtp $(((SW - WW)/2)) $(((SH - WH + PH)/2)) $WW $WH $WID
+wtp $(((SW - WW)/2)) $(((SH - WH + PANELHEIGHT)/2)) $WW $WH $WID
