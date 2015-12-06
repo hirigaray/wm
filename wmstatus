@@ -2,5 +2,5 @@
 # check the status of each group
 # requires wm from https://github.com/kori/wm
 
-cat $WSTATUS/* | tr '\n' ' '
+cat $WMSTATUS/* | tr '\n' ' '
 echo

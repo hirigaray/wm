@@ -8,39 +8,39 @@ usage() {
 }
 
 addToGroup() {
-	:> $WGROUPS/$2/$1
+	:> $WMGROUPS/$2/$1
 	showGroup $2
 }
 
 removeFromGroup() {
 	test "$2" = "all" \
-	&& rm -f $WGROUPS/*/$1 \
-	|| rm -f $WGROUPS/$2/$1
+	&& rm -f $WMGROUPS/*/$1 \
+	|| rm -f $WMGROUPS/$2/$1
 }
 
 findGroup() {
-	file=$(find $WGROUPS -name "$1")
+	file=$(find $WMGROUPS -name "$1")
 	test -n "$file" && basename $(dirname $file)
 }
 
 showGroup() {
-	for file in $WGROUPS/$1/*; do
+	for file in $WMGROUPS/$1/*; do
 			wid=$(basename $file)
 			mapw -m $wid
 	done
-	echo 1 > $WSTATUS/$1
+	echo 1 > $WMSTATUS/$1
 }
 
 hideGroup() {
-	for file in $WGROUPS/$1/*; do
+	for file in $WMGROUPS/$1/*; do
 			wid=$(basename $file)
 			mapw -u $wid
 	done
-	echo 0 > $WSTATUS/$1
+	echo 0 > $WMSTATUS/$1
 }
 
 toggleGroup() {
-	wid=$(ls -1 $WGROUPS/$1 | sed 1q)
+	wid=$(ls -1 $WMGROUPS/$1 | sed 1q)
 
 	test -z "$wid" && return
 	wattr m $wid \
@@ -49,21 +49,21 @@ toggleGroup() {
 }
 
 checkGroups() {
-	if [ ! -d $WSTATUS ]; then
-		mkdir $WSTATUS
+	if [ ! -d $WMSTATUS ]; then
+		mkdir $WMSTATUS
 	fi
 	for g in $(seq 1 $GROUPS); do
-			test -d $WGROUPS/$g || mkdir -p $WGROUPS/$g
+			test -d $WMGROUPS/$g || mkdir -p $WMGROUPS/$g
 	done
 
-	for file in $(find $WGROUPS -type f); do
+	for file in $(find $WMGROUPS -type f); do
 		wid=$(basename $file)
 		wattr $wid || rm -f $file
 	done
 
 	for ws in $(seq 1 $GROUPS); do
-		if [ $(find $WGROUPS/$ws -maxdepth 0 -type d -empty) ]; then
-			echo 0 > $WSTATUS/$ws
+		if [ $(find $WMGROUPS/$ws -maxdepth 0 -type d -empty) ]; then
+			echo 0 > $WMSTATUS/$ws
 		fi
 	done
 }
@@ -83,4 +83,4 @@ while getopts ":a:wd:gm:t:h:" opt; do
 done
 
 # in case no argument is given, display the whole tree
-test $# -eq 0 && tree --noreport $WGROUPS
+test $# -eq 0 && tree --noreport $WMGROUPS
