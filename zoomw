@@ -1,7 +1,8 @@
 #!/bin/sh
-# zoom into a window
+# zoom a window
 
-. $WMCONF
+. $XDG_CONFIG_HOME/wm.conf
+
 H=$(wattr h $(lsw -r))
 W=$(wattr w $(lsw -r))
 

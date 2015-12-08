@@ -1,7 +1,7 @@
 #!/bin/sh
 # window mangler
 
-. $WMCONF
+. $XDG_CONFIG_HOME/wm.conf
 
 usage() {
 	echo "$(basename $0) [-adsth <group number>]"

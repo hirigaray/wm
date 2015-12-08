@@ -2,5 +2,7 @@
 # check the status of each group
 # requires wm from https://github.com/kori/wm
 
+. $XDG_CONFIG_HOME/wm.conf
+
 cat $WMSTATUS/* | tr '\n' ' '
 echo

@@ -1,7 +1,8 @@
 #!/bin/sh
 # focus wrapper that sets borders and can focus next/previous window
 
-. $WMCONF
+. $XDG_CONFIG_HOME/wm.conf
+
 a=0xb8b8c8 # active border color
 i=0x1a1a26 # inactive border color
 
