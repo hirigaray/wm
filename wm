@@ -1,5 +1,6 @@
 #!/bin/sh
 # window mangler
+# differences from groaw: it keeps track of which groups are active in the filesystem
 
 . $XDG_CONFIG_HOME/wm.conf
 
@@ -13,14 +14,7 @@ addToGroup() {
 }
 
 removeFromGroup() {
-	test "$2" = "all" \
-	&& rm -f $WMGROUPS/*/$1 \
-	|| rm -f $WMGROUPS/$2/$1
-}
-
-findGroup() {
-	file=$(find $WMGROUPS -name "$1")
-	test -n "$file" && basename $(dirname $file)
+	rm $WMGROUPS/$2/$1
 }
 
 showGroup() {
@@ -74,7 +68,6 @@ while getopts ":a:wd:gm:t:h:" opt; do
 	case $opt in
 		a) addToGroup `pfw` $OPTARG ;;
 		d) removeFromGroup `pfw` $OPTARG ;;
-		g) findGroup `pfw` ;;
 		s) showGroup $OPTARG ;;
 		t) toggleGroup $OPTARG ;;
 		h) hideGroup $OPTARG ;;
