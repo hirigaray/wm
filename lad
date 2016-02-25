@@ -1,18 +1,19 @@
 #!/bin/sh
 # le (window) advent daemon
+# ^ backronym, I just wanted to make the "exec wew | lad" pun on my xinitrc
 
 while IFS=: read ev wid; do
-    case $ev in
-        # window creation
-        16) wattr o $wid || focusw $wid ;;
+	case $ev in
+		# Focus new windows
+		16) wattr o $wid || focusw $wid ;;
 
-        # mapping requests
-        19) wattr o $wid || focusw $wid ;;
+		# Mapping requests
+		19) wattr o $wid || focusw $wid ;;
 
-        # focus next window when deleting focused window
-        18) wattr $(pfw) || focusw prev 2>/dev/null;;
+		# Focus next window when deleting current window
+		18) wattr $(pfw) || focusw prev 2>/dev/null;;
 
-        # entering window
-        7) wattr o $wid || focusw $wid ;;
-    esac
+		# Focus entered window
+		7) wattr o $wid || focusw $wid ;;
+	esac
 done
