@@ -3,8 +3,8 @@
 
 . $XDG_CONFIG_HOME/wm.conf
 
-a=0xb8b8c8 # active border color
-i=0x1a1a26 # inactive border color
+a=0x545466 # active border color
+i=0x353540 # inactive border color
 
 # get current window id
 c=$(pfw)
