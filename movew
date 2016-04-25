@@ -17,6 +17,7 @@ case $1 in
 	tr) X=$((SW - W - BW*2 - GAP)) Y=$((GAP + PANELHEIGHT)) ;;
 	bl) X=$GAP Y=$((SH - H - BW*2 - GAP)) ;;
 	br) X=$((SW - W - BW*2 - GAP)) Y=$((SH - H - BW*2 - GAP)) ;;
+	cs) X=$(((SW - W)/2)) Y=$(((SH - H + PANELHEIGHT)/2)) ;;
 	*) echo "no position specified" ;;
 esac
 
