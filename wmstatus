@@ -4,5 +4,4 @@
 
 . $XDG_CONFIG_HOME/wm.conf
 
-cat $WMSTATUS/* | tr '\n' ' '
-echo
+echo $(cat $WSTATUS/* | tr '\n' ' ')
