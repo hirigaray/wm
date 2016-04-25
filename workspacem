@@ -1,0 +1,87 @@
+#!/bin/sh
+# workspace manager
+# differences from groaw: it keeps track of which groups are active in the filesystem
+
+. $XDG_CONFIG_HOME/wm.conf
+
+usage() {
+	echo "$(basename $0) [-adt <group number>]"
+}
+
+addToWorkspace() {
+	:> $WSPACES/$2/$1
+	showWorkspace $2
+}
+
+removeFromWorkspace() {
+	rm $WSPACES/$2/$1
+}
+
+hideWorkspace() {
+	for file in $WSPACES/$1/*; do
+		wid=$(basename $file)
+		mapw -u $wid
+	done
+	echo 0 > $WSTATUS/$1
+}
+
+showWorkspace() {
+	otherspaces=$(seq 1 $NWORKSPACES | tr -d "$1")
+
+	for os in $otherspaces; do
+		hideWorkspace $os
+	done
+
+	for file in $WSPACES/$1/*; do
+		wid=$(basename $file)
+		mapw -m $wid
+	done
+	echo 1 > $WSTATUS/$1
+}
+
+toggleWorkspace() {
+	wid=$(ls -1 $WSPACES/$1 | sed 1q)
+
+	test -z "$wid" && return
+	wattr m $wid \
+		&& hideWorkspace $1 \
+		|| showWorkspace $1
+}
+
+checkWorkspaces() {
+	if [ -z $WSPACES ]; then
+		echo "workspaces root not defined"
+		exit 1
+	fi
+
+	if [ ! -d $WSTATUS ]; then
+		mkdir $WSTATUS
+	fi
+
+	for ws in $(seq 1 $NWORKSPACES); do
+		test -d $WSPACES/$ws || mkdir -p $WSPACES/$ws
+
+		if [ $(find $WSPACES/$ws -maxdepth 0 -type d -empty) ]; then
+			echo 0 > $WSTATUS/$ws
+		fi
+	done
+
+	for file in $(find $WSPACES -type f); do
+		wid=$(basename $file)
+		wattr $wid || rm -f $file
+	done
+}
+
+checkWorkspaces
+
+while getopts ":a:d:t:h:" opt; do
+	case $opt in
+		a) addToWorkspace `pfw` $OPTARG ;;
+		d) removeFromWorkspace `pfw` $OPTARG ;;
+		t) toggleWorkspace $OPTARG ;;
+		*) usage && exit 0;;
+	esac
+done
+
+# in case no argument is given, display the whole tree
+test $# -eq 0 && tree --noreport $WSPACES
