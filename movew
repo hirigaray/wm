@@ -1,5 +1,5 @@
 #!/bin/sh
-# put current window into a corner
+# move window to a predefined location
 
 . $XDG_CONFIG_HOME/wm.conf
 
