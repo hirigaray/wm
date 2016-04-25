@@ -5,7 +5,7 @@
 . $XDG_CONFIG_HOME/wm.conf
 
 usage() {
-	echo "$(basename $0) [-adt <group number>]"
+	echo "$(basename $0) [add|rm|toggle] <group number>]"
 }
 
 addToWorkspace() {
@@ -74,14 +74,13 @@ checkWorkspaces() {
 
 checkWorkspaces
 
-while getopts ":a:d:t:h:" opt; do
-	case $opt in
-		a) addToWorkspace `pfw` $OPTARG ;;
-		d) removeFromWorkspace `pfw` $OPTARG ;;
-		t) toggleWorkspace $OPTARG ;;
-		*) usage && exit 0;;
-	esac
-done
+case $1 in
+	add) addToWorkspace `pfw` $2 ;;
+	rm) removeFromWorkspace `pfw` $2 ;;
+	toggle) toggleWorkspace $2 ;;
+	status) echo $(cat $WSTATUS/* | tr '\n' ' ') ;;
+	*) usage && exit 0;;
+esac
 
 # in case no argument is given, display the whole tree
 test $# -eq 0 && tree --noreport $WSPACES
