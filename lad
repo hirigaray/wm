@@ -1,5 +1,5 @@
 #!/bin/sh
-# le (window) advent daemon
+# light (window) advent daemon
 # ^ backronym, I just wanted to make the "exec wew | lad" pun on my xinitrc
 
 while IFS=: read ev wid; do
