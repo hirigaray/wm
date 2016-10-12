@@ -4,12 +4,10 @@
 . $XDG_CONFIG_HOME/wm.conf
 
 # get current window
+# falls back to root window ID, this is a hack.
 cur=$(pfw || echo "0x00000000")
 
 setBorder() {
-	# check if window exists
-#	wattr $2 || return
-
 	a=0x545466 # active border color
 	i=0x353540 # inactive border color
 
@@ -20,8 +18,8 @@ setBorder() {
 }
 
 case $1 in
-	next) new=$(lsw | grep -v ${cur} | sed '1 p;d') ;;
-	prev) new=$(lsw | grep -v ${cur} | sed '$ p;d') ;;
+	next) new=$(lsw | grep -v "${cur}" | sed '1 p;d') ;;
+	prev) new=$(lsw | grep -v "${cur}" | sed '$ p;d') ;;
 	0x*) wattr $1 && new=$1 ;;
 esac
 
