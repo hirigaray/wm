@@ -7,21 +7,17 @@ H=$(wattr h $(lsw -r))
 W=$(wattr w $(lsw -r))
 
 # this file is used to store the previous geometry of a window
-FSFILE=$TMPDIR/wm/zoom
-
-# if any window is zoomed, unset its state
-# so no window will lose their previous geometry info
-test -f $FSFILE && wtp $(cat $FSFILE)
+FSDIR=$TMPDIR/wm/zoom.d
+FSFILE=$FSDIR/$(pfw)
 
 # if this file exists and contains a window id, that window is zoomed
-if test -f $FSFILE && grep -q $1 $FSFILE; then
-	# if the window removed was already zoomed
-	# delete the file, so it is zoomable again
+if test -f $FSFILE; then
+	wtp $(cat $FSFILE) $1
 	rm -f $FSFILE
 else
-	# save geometry and id
-	wattr xywhi $1 > $FSFILE
-	# zoom the current window
+	# save geometry
+	wattr xywh $1 > $FSFILE
+	# zoom the window
 	wtp $GAP $((PANELHEIGHT + GAP)) $((W - 2*GAP - 2*BORDERWIDTH)) $((H - 2*GAP - PANELHEIGHT - 2*BORDERWIDTH)) $1
 fi
 
