@@ -16,7 +16,7 @@ while IFS=: read ev wid; do
 		# Focus entered window
 		7) wattr o $wid || focusw $wid ;;
 
-		# google play music notificaton
+		# google play music notification
 		146) focusw prev ;;
 	esac
 done
