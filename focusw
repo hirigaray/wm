@@ -3,15 +3,15 @@
 
 . $XDG_CONFIG_HOME/wm.conf
 
-a=0x545466 # active border color
-i=0x353540 # inactive border color
+# get current window
+cur=$(pfw || echo "0x00000000")
 
-# get current window id
-c=$(pfw)
-
-setborder() {
+setBorder() {
 	# check if window exists
-	wattr $2 || return
+#	wattr $2 || return
+
+	a=0x545466 # active border color
+	i=0x353540 # inactive border color
 
 	case $1 in
 		active)   chwb -s$BORDERWIDTH -c$a $2 ;;
@@ -20,19 +20,19 @@ setborder() {
 }
 
 case $1 in
-	next) wid=$(lsw|grep -v $c|sed '1 p;d') ;;
-	prev) wid=$(lsw|grep -v $c|sed '$ p;d') ;;
-	0x*) wattr $1 && wid=$1 ;;
+	next) new=$(lsw | grep -v ${cur} | sed '1 p;d') ;;
+	prev) new=$(lsw | grep -v ${cur} | sed '$ p;d') ;;
+	0x*) wattr $1 && new=$1 ;;
 esac
 
 # exit if another window to focus can't be found
-test -z "$wid" && echo "can't find a window to focus" >&2 && exit 1
+[ -z "${new}" ] && echo "can't find a window to focus" && exit 1
 
 # set inactive border on current window
-setborder inactive $c
+setBorder inactive ${cur}
 # activate the new window
-setborder active $wid
+setBorder active ${new}
 # put it on top of the stack
-chwso -r $wid
+chwso -r ${new}
 # set focus on it
-wtf $wid
+wtf ${new}
