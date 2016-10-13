@@ -72,13 +72,20 @@ checkWorkspaces() {
 	done
 }
 
+workspaceStatus() {
+	for ws in $WSTATUS/*; do
+		echo "$(basename $ws):$(cat $ws)" | tr '\n' ' '
+	done
+	echo
+}
+
 checkWorkspaces
 
 case $1 in
 	add) addToWorkspace `pfw` $2 ;;
 	rm) removeFromWorkspace `pfw` $2 ;;
 	toggle) toggleWorkspace $2 ;;
-	status) echo $(cat $WSTATUS/* | tr '\n' ' ') ;;
+	status) workspaceStatus ;;
 	*) usage && exit 0;;
 esac
 
