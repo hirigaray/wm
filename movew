@@ -4,22 +4,36 @@
 
 . $XDG_CONFIG_HOME/wm.conf
 
-cur=${2:-$(pfw)}
-root=$(lsw -r)
-sw=$(wattr w $root)
-sh=$(wattr h $root)
+cur=$(pfw)          # current window
+root=$(lsw -r)      # root window ID
 
-bw=$(wattr b $cur)
-w=$(wattr w $cur)
-h=$(wattr h $cur)
+sw=$(wattr w $root) # screen width
+sh=$(wattr h $root) # screen height
+w=$(wattr w $cur)   # window width
+h=$(wattr h $cur)   # window height
 
 case $1 in
-	topLeft)      X=$GAP Y=$((GAP + PANELHEIGHT)) ;;
-	topRight)     X=$((sw - w - bw*2 - GAP)) Y=$((GAP + PANELHEIGHT)) ;;
-	bottomLeft)   X=$GAP Y=$((sh - h - bw*2 - GAP)) ;;
-	bottomRight)  X=$((sw - w - bw*2 - GAP)) Y=$((sh - h - bw*2 - GAP)) ;;
-	centerScreen) X=$(((sw - w)/2)) Y=$(((sh - h + PANELHEIGHT)/2)) ;;
+	topLeft)
+		x=$GAP
+		y=$((GAP + PANELHEIGHT)) ;;
+
+	topRight)
+		x=$((sw-w - BORDERWIDTH*2 - GAP))
+		y=$((GAP + PANELHEIGHT)) ;;
+
+	bottomLeft)
+		x=$GAP
+		y=$((sh-h - BORDERWIDTH*2 - GAP)) ;;
+
+	bottomRight)
+		x=$((sw-w - BORDERWIDTH*2 - GAP))
+		y=$((sh-h - BORDERWIDTH*2 - GAP)) ;;
+
+	centerScreen)
+		x=$(((sw - w)/2))
+		y=$(((sh-h + PANELHEIGHT)/2)) ;;
+
 	*) echo "no position specified" ;;
 esac
 
-wtp $X $Y $w $h $cur
+wtp $x $y $w $h $cur
