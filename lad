@@ -1,6 +1,7 @@
 #!/bin/sh
 # light (window) advent daemon
 # ^ backronym, I just wanted to make the "exec wew | lad" pun on my xinitrc
+# copyright 2016 (c) z3bra & kori
 
 while IFS=: read ev wid; do
 	case $ev in

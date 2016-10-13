@@ -1,24 +1,25 @@
 #!/bin/sh
 # move window to a predefined location
+# copyright 2016 (c) z3bra & kori
 
 . $XDG_CONFIG_HOME/wm.conf
 
-CUR=${2:-$(pfw)}
-ROOT=$(lsw -r)
-SW=$(wattr w $ROOT)
-SH=$(wattr h $ROOT)
+cur=${2:-$(pfw)}
+root=$(lsw -r)
+sw=$(wattr w $root)
+sh=$(wattr h $root)
 
-BW=$(wattr b $CUR)
-W=$(wattr w $CUR)
-H=$(wattr h $CUR)
+bw=$(wattr b $cur)
+w=$(wattr w $cur)
+h=$(wattr h $cur)
 
 case $1 in
-	tl) X=$GAP Y=$((GAP + PANELHEIGHT)) ;;
-	tr) X=$((SW - W - BW*2 - GAP)) Y=$((GAP + PANELHEIGHT)) ;;
-	bl) X=$GAP Y=$((SH - H - BW*2 - GAP)) ;;
-	br) X=$((SW - W - BW*2 - GAP)) Y=$((SH - H - BW*2 - GAP)) ;;
-	cs) X=$(((SW - W)/2)) Y=$(((SH - H + PANELHEIGHT)/2)) ;;
+	topLeft)      X=$GAP Y=$((GAP + PANELHEIGHT)) ;;
+	topRight)     X=$((sw - w - bw*2 - GAP)) Y=$((GAP + PANELHEIGHT)) ;;
+	bottomLeft)   X=$GAP Y=$((sh - h - bw*2 - GAP)) ;;
+	bottomRight)  X=$((sw - w - bw*2 - GAP)) Y=$((sh - h - bw*2 - GAP)) ;;
+	centerScreen) X=$(((sw - w)/2)) Y=$(((sh - h + PANELHEIGHT)/2)) ;;
 	*) echo "no position specified" ;;
 esac
 
-wtp $X $Y $W $H $CUR
+wtp $X $Y $w $h $cur

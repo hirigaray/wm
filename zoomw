@@ -1,10 +1,11 @@
 #!/bin/sh
 # zoom a window
+# copyright 2016 (c) z3bra & kori
 
 . $XDG_CONFIG_HOME/wm.conf
 
-H=$(wattr h $(lsw -r))
-W=$(wattr w $(lsw -r))
+h=$(wattr h $(lsw -r))
+w=$(wattr w $(lsw -r))
 
 # this file is used to store the previous geometry of a window
 FSDIR=$TMPDIR/wm/zoom.d
@@ -18,7 +19,7 @@ else
 	# save geometry
 	wattr xywh $1 > $FSFILE
 	# zoom the window
-	wtp $GAP $((PANELHEIGHT + GAP)) $((W - 2*GAP - 2*BORDERWIDTH)) $((H - 2*GAP - PANELHEIGHT - 2*BORDERWIDTH)) $1
+	wtp $GAP $((PANELHEIGHT + GAP)) $((w - 2*GAP - 2*BORDERWIDTH)) $((h - 2*GAP - PANELHEIGHT - 2*BORDERWIDTH)) $1
 fi
 
 # focus the window

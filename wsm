@@ -1,6 +1,6 @@
 #!/bin/sh
 # workspace manager
-# differences from groaw: it keeps track of which groups are active in the filesystem
+# copyright 2016 (c) greduan & kori
 
 . $XDG_CONFIG_HOME/wm.conf
 
