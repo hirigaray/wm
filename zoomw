@@ -8,7 +8,7 @@ h=$(wattr h $(lsw -r))
 w=$(wattr w $(lsw -r))
 
 # this file is used to store the previous geometry of a window
-FSDIR=$TMPDIR/wm/zoom.d
+FSDIR=$WROOT/zoom.d
 FSFILE=$FSDIR/$(pfw)
 
 # if this file exists, that window is zoomed, so unzoom it and delete file
