@@ -5,16 +5,16 @@
 
 while IFS=: read ev wid; do
 	case $ev in
-		# Focus new windows
+		# focus new windows
 		16) wattr o $wid || focusw $wid ;;
 
-		# Mapping requests
+		# window mapping requests
 		19) wattr o $wid || focusw $wid ;;
 
-		# Focus next window when deleting current window
+		# focus previous window when deleting current window
 		18) wattr m $wid || focusw prev ;;
 
-		# Focus entered window
+		# focus entered window
 		7) wattr o $wid || focusw $wid ;;
 
 		# google play music notification
