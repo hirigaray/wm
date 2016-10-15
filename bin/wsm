@@ -6,7 +6,7 @@
 . $XDG_CONFIG_HOME/wm.conf
 
 usage() {
-	echo 'wsm [add|rm|toggle] <workspace number>'
+	echo 'usage: wsm [add|rm|toggle] <workspace number>'
 }
 
 addToWorkspace() {
