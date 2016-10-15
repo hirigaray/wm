@@ -1,21 +1,22 @@
 #!/bin/sh
 # light (window) advent daemon
 # ^ backronym, I just wanted to make the "exec wew | lad" pun on my xinitrc
+#
 # copyright 2016 (c) z3bra & kori
 
 while IFS=: read ev wid; do
 	case $ev in
-		# focus new windows
-		16) wattr o $wid || focusw $wid ;;
+		# focus entered window
+		7) wattr o $wid || focusw $wid ;;
+
+		# focus new windows and corner them
+		16) wattr o $wid || focusw $wid && movew topLeft;;
+
+		# focus previous window when deleting current window
+		18) wattr $(pfw) || focusw prev ;;
 
 		# window mapping requests
 		19) wattr o $wid || focusw $wid ;;
-
-		# focus previous window when deleting current window
-		18) wattr m $wid || focusw prev ;;
-
-		# focus entered window
-		7) wattr o $wid || focusw $wid ;;
 
 		# google play music notification
 		146) focusw prev ;;
