@@ -9,8 +9,8 @@ while IFS=: read ev wid; do
 		# focus entered window
 		7) wattr o $wid || focusw $wid ;;
 
-		# focus new windows and corner them
-		16) wattr o $wid || focusw $wid && movew topLeft;;
+		# focus new windows
+		16) wattr o $wid || focusw $wid ;;
 
 		# focus previous window when deleting current window
 		18) wattr $(pfw) || focusw prev ;;
