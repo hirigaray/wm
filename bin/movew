@@ -1,5 +1,6 @@
 #!/bin/sh
 # move window to a predefined location
+#
 # copyright 2016 (c) z3bra & kori
 
 . $XDG_CONFIG_HOME/wm.conf

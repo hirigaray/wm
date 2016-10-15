@@ -1,5 +1,6 @@
 #!/bin/sh
 # workspace manager
+#
 # copyright 2016 (c) greduan & kori
 
 . $XDG_CONFIG_HOME/wm.conf
@@ -86,8 +87,6 @@ case $1 in
 	rm) removeFromWorkspace `pfw` $2 ;;
 	toggle) toggleWorkspace $2 ;;
 	status) workspaceStatus ;;
-	*) usage && exit 0;;
+	'') [ $# -eq 0 ] && tree --noreport $WSPACES ;;
+	*) usage && exit 0 ;;
 esac
-
-# in case no argument is given, display the whole tree
-test $# -eq 0 && tree --noreport $WSPACES
