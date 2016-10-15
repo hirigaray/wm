@@ -5,7 +5,13 @@
 
 . $XDG_CONFIG_HOME/wm.conf
 
-cur=$(pfw)          # current window
+# current window
+if [ $# -eq 2 ]; then
+	cur=$2
+else
+	cur=$(pfw)
+fi
+
 root=$(lsw -r)      # root window ID
 
 sw=$(wattr w $root) # screen width
