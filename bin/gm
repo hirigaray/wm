@@ -43,7 +43,7 @@ toggleGroup() {
 }
 
 showSingle() {
-	showGroup $1
+	toggleGroup $1
 
 	othergroups=$(seq 1 $NGROUPS | tr -d "$1")
 
