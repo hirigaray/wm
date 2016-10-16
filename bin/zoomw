@@ -10,10 +10,10 @@ w=$(wattr w $(lsw -r))
 
 # root dir for geometry files
 zoomdir=$WMROOT/zoom.d
+if [! -d $zoomdir ] && mkdir -p $zoomdir
 # this file is used to store the previous geometry of a window
 gmfile=$zoomdir/$(pfw)
 
-mkdir -p $zoomdir
 # if this file exists, that window is zoomed, so unzoom it and delete file
 if test -f $gmfile; then
 	wtp $(cat $gmfile) $1
