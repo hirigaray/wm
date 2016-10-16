@@ -1,0 +1,96 @@
+#!/bin/sh
+# window group manager
+#
+# copyright 2016 (c) greduan & kori
+
+. $XDG_CONFIG_HOME/wm.conf
+
+usage() {
+	echo 'usage: gm [add|rm|toggle|single] <group number>'
+}
+
+addToGroup() {
+	:> $WMGROUPS/$2/$1
+	showGroup $2
+}
+
+removeFromGroup() {
+	rm $WMGROUPS/$2/$1
+}
+
+hideGroup() {
+	for file in $WMGROUPS/$1/*; do
+		wid=$(basename $file)
+		mapw -u $wid
+	done
+	echo 0 > $WMSTATUS/$1
+}
+
+showGroup() {
+	for file in $WMGROUPS/$1/*; do
+		wid=$(basename $file)
+		mapw -m $wid
+	done
+	echo 1 > $WMSTATUS/$1
+}
+
+toggleGroup() {
+	wid=$(ls -1 $WMGROUPS/$1 | sed 1q)
+
+	test -z "$wid" && return
+	wattr m $wid && hideGroup $1 \
+	|| showGroup $1
+}
+
+showSingle() {
+	showGroup $1
+
+	othergroups=$(seq 1 $NGROUPS | tr -d "$1")
+
+	for og in $othergroups; do
+		hideGroup $og
+	done
+}
+
+checkGroups() {
+	if [ -z $WMGROUPS ]; then
+		echo "workspaces root not defined"
+		exit 1
+	fi
+
+	if [ ! -d $WMSTATUS ]; then
+		mkdir $WMSTATUS
+	fi
+
+	for ws in $(seq 1 $NGROUPS); do
+		test -d $WMGROUPS/$ws || mkdir -p $WMGROUPS/$ws
+
+		if [ $(find $WMGROUPS/$ws -maxdepth 0 -type d -empty) ]; then
+			echo 0 > $WMSTATUS/$ws
+		fi
+	done
+
+	for file in $(find $WMGROUPS -type f); do
+		wid=$(basename $file)
+		wattr $wid || rm -f $file
+	done
+}
+
+groupStatus() {
+	for ws in $WMSTATUS/*; do
+		echo "$(basename $ws):$(cat $ws)" | tr '\n' ' '
+	done
+	echo
+}
+
+checkGroups
+
+case $1 in
+	add) addToGroup `pfw` $2 ;;
+	rm) removeFromGroup `pfw` $2 ;;
+	toggle) toggleGroup $2 ;;
+	status) groupStatus ;;
+	single) showSingle $2 ;;
+	'') [ $# -eq 0 ] && tree --noreport $WMGROUPS ;;
+	*) usage && exit 0 ;;
+esac
