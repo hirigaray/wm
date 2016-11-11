@@ -19,27 +19,19 @@ sh=$(wattr h $root) # screen height
 w=$(wattr w $cur)   # window width
 h=$(wattr h $cur)   # window height
 
+left=$GAP
+right=$((sw-w - BORDERWIDTH*2 - GAP))
+top=$((GAP + PANELHEIGHT))
+bottom=$((sh-h - BORDERWIDTH*2 - GAP))
+centerx=$(((sw-w - BORDERWIDTH*2)/2))
+centery=$(((sh-h + PANELHEIGHT - BORDERWIDTH*2)/2))
+
 case $1 in
-	topLeft)
-		x=$GAP
-		y=$((GAP + PANELHEIGHT)) ;;
-
-	topRight)
-		x=$((sw-w - BORDERWIDTH*2 - GAP))
-		y=$((GAP + PANELHEIGHT)) ;;
-
-	bottomLeft)
-		x=$GAP
-		y=$((sh-h - BORDERWIDTH*2 - GAP)) ;;
-
-	bottomRight)
-		x=$((sw-w - BORDERWIDTH*2 - GAP))
-		y=$((sh-h - BORDERWIDTH*2 - GAP)) ;;
-
-	centerScreen)
-		x=$(((sw - w - BORDERWIDTH*2)/2))
-		y=$(((sh-h + PANELHEIGHT - BORDERWIDTH*2)/2)) ;;
-
+	topLeft)      y=$top     x=$left    ;;
+	topRight)     y=$top     x=$right   ;;
+	bottomLeft)   y=$bottom  x=$left    ;;
+	bottomRight)  y=$bottom  x=$right   ;;
+	centerScreen) y=$centery x=$centerx ;;
 	*) echo "no position specified" ;;
 esac
 
