@@ -37,8 +37,8 @@ case $1 in
 		y=$((sh-h - BORDERWIDTH*2 - GAP)) ;;
 
 	centerScreen)
-		x=$(((sw - w)/2))
-		y=$(((sh-h + PANELHEIGHT)/2)) ;;
+		x=$(((sw - w - BORDERWIDTH*2)/2))
+		y=$(((sh-h + PANELHEIGHT - BORDERWIDTH*2)/2)) ;;
 
 	*) echo "no position specified" ;;
 esac
