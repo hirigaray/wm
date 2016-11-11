@@ -6,22 +6,22 @@
 . $XDG_CONFIG_HOME/wm.conf
 
 # get current window
-# falls back to root window ID, this is a hack.
+# if none is found, it falls back to a dummy ID, this is a hack.
 cur=$(pfw || echo "0x00000000")
 
 setBorder() {
-	a=0x545466 # active border color
-	i=0x353540 # inactive border color
+	active=545466
+	inactive=353540
 
 	case $1 in
-		active)   chwb -s$BORDERWIDTH -c$a $2 ;;
-		inactive) chwb -s$BORDERWIDTH -c$i $2 ;;
+		active)   chwb -s$BORDERWIDTH -c0x$active $2 ;;
+		inactive) chwb -s$BORDERWIDTH -c0x$inactive $2 ;;
 	esac
 }
 
 case $1 in
-	next) new=$(lsw | grep -v "${cur}" | sed '1 p;d') ;;
-	prev) new=$(lsw | grep -v "${cur}" | sed '$ p;d') ;;
+	next) new=$(lsw | grep -v ${cur} | sed '1 p;d') ;;
+	prev) new=$(lsw | grep -v ${cur} | sed '$ p;d') ;;
 	0x*) wattr $1 && new=$1 ;;
 esac
 
