@@ -5,12 +5,8 @@
 
 . $XDG_CONFIG_HOME/wm.conf
 
-# current window
-if [ $# -eq 2 ]; then
-	cur=$2
-else
-	cur=$(pfw)
-fi
+# get window id from arguments
+cur=$2
 
 root=$(lsw -r)      # root window ID
 
@@ -19,12 +15,12 @@ sh=$(wattr h $root) # screen height
 w=$(wattr w $cur)   # window width
 h=$(wattr h $cur)   # window height
 
-left=$GAP
-right=$((sw-w - BORDERWIDTH*2 - GAP))
-top=$((GAP + PANELHEIGHT))
-bottom=$((sh-h - BORDERWIDTH*2 - GAP))
-centerx=$(((sw-w - BORDERWIDTH*2)/2))
-centery=$(((sh-h + PANELHEIGHT - BORDERWIDTH*2)/2))
+left=$GAP                                           # left part of screen
+right=$((sw-w - BORDERWIDTH*2 - GAP))               # right part of screen
+top=$((GAP + PANELHEIGHT))                          # top part of screen
+bottom=$((sh-h - BORDERWIDTH*2 - GAP))              # bottom part of screen
+centerx=$(((sw-w - BORDERWIDTH*2)/2))               # center of the x-axis
+centery=$(((sh-h + PANELHEIGHT - BORDERWIDTH*2)/2)) # center of the y-axis
 
 case $1 in
 	topLeft)      y=$top     x=$left    ;;

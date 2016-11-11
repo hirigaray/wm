@@ -54,7 +54,7 @@ showSingle() {
 
 checkGroups() {
 	if [ -z $WMGROUPS ]; then
-		echo "workspaces root not defined"
+		echo "groups root not defined"
 		exit 1
 	fi
 
