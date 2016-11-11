@@ -31,7 +31,12 @@ case $1 in
 	topRight)     y=$top     x=$right   ;;
 	bottomLeft)   y=$bottom  x=$left    ;;
 	bottomRight)  y=$bottom  x=$right   ;;
+
 	centerScreen) y=$centery x=$centerx ;;
+	centerLeft)   y=$centery x=$left    ;;
+	centerRight)  y=$centery x=$right   ;;
+	centerTop)    y=$top     x=$centerx ;;
+	centerBottom) y=$bottom  x=$centerx ;;
 	*) echo "no position specified" ;;
 esac
 
