@@ -1,0 +1,27 @@
+#!/bin/sh
+# resize window
+#
+# copyright 2016 (c) kori
+
+. $XDG_CONFIG_HOME/wm.conf
+
+# get window id from arguments
+cur=$2
+
+horizontalStep=14
+verticalStep=17
+
+case $1 in
+	growRight)          h="+$horizontalStep" v=0                ;;
+	growBottom)         h=0                  v="+$verticalStep" ;;
+	doubleGrowRight)    h="+$((horizontalStep*2))" v=0                ;;
+	doubleGrowBottom)   h=0                  v="+$((verticalStep*2))" ;;
+
+	shrinkRight)        h="-$horizontalStep" v=0                ;;
+	shrinkBottom)       h=0                  v="-$verticalStep" ;;
+	doubleShrinkRight)  h="-$((horizontalStep*2))" v=0                ;;
+	doubleShrinkBottom) h=0                  v="-$((verticalStep*2))" ;;
+	*) echo "no position specified" ;;
+esac
+
+wrs $h $v $cur
