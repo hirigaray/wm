@@ -3,8 +3,6 @@
 #
 # copyright 2016 (c) kori
 
-. $XDG_CONFIG_HOME/wm.conf
-
 # get window id from arguments
 cur=$2
 
