@@ -8,20 +8,23 @@
 # get window id from arguments
 cur=$2
 
-horizontalStep=14
-verticalStep=17
+singleHStep=14
+singleVStep=17
+
+doubleHStep=$((singleHStep*2))
+doubleVStep=$((singleVStep*2))
 
 case $1 in
-	growRight)          h="+$horizontalStep" v=0                ;;
-	growBottom)         h=0                  v="+$verticalStep" ;;
-	doubleGrowRight)    h="+$((horizontalStep*2))" v=0                ;;
-	doubleGrowBottom)   h=0                  v="+$((verticalStep*2))" ;;
+	growRight)          h="+$singleHStep" v=0               ;;
+	growBottom)         h=0               v="+$singleVStep" ;;
+	doubleGrowRight)    h="+$doubleHStep" v=0               ;;
+	doubleGrowBottom)   h=0               v="+$doubleVstep" ;;
 
-	shrinkRight)        h="-$horizontalStep" v=0                ;;
-	shrinkBottom)       h=0                  v="-$verticalStep" ;;
-	doubleShrinkRight)  h="-$((horizontalStep*2))" v=0                ;;
-	doubleShrinkBottom) h=0                  v="-$((verticalStep*2))" ;;
-	*) echo "no position specified" ;;
+	shrinkRight)        h="-$singleHStep" v=0               ;;
+	shrinkBottom)       h=0               v="-$singleVStep" ;;
+	doubleShrinkRight)  h="-$doubleHStep" v=0               ;;
+	doubleShrinkBottom) h=0               v="-$doubleVStep" ;;
+	*) echo "no command specified" ;;
 esac
 
 wrs $h $v $cur
