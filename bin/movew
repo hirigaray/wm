@@ -1,0 +1,30 @@
+#!/bin/sh
+# move window by a set amount
+#
+# copyright 2016 (c) kori
+
+. $XDG_CONFIG_HOME/wm.conf
+
+# get window id from arguments
+cur=$2
+
+singleHStep=14
+singleVStep=17
+
+doubleHStep=$((singleHStep*2))
+doubleVStep=$((singleVStep*2))
+
+case $1 in
+	left)  h="-$singleHStep" v=0               ;;
+	up)    h=0               v="+$singleHStep" ;;
+	down)  h=0               v="-$singleVStep" ;;
+	right) h="+$singleHStep" v=0               ;;
+
+	doubleLeft)  h="-$doubleHStep" v=0               ;;
+	doubleUp)    h=0               v="+$doubleHStep" ;;
+	doubleDown)  h=0               v="-$doubleVStep" ;;
+	doubleRight) h="+$doubleHStep" v=0               ;;
+	*) echo "no command specified" ;;
+esac
+
+wmv $h $v $cur
