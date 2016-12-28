@@ -6,8 +6,8 @@
 # get window id from arguments
 cur=$2
 
-singleHStep=14
-singleVStep=17
+singleHStep=18
+singleVStep=22
 
 doubleHStep=$((singleHStep*2))
 doubleVStep=$((singleVStep*2))
