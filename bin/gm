@@ -7,8 +7,10 @@
 
 usage() {
 	echo 'usage: gm [add|rm|toggle|single] <group number>'
+	echo 'gm rename <group number> <name>'
 }
 
+# this is here to ensure gm will work on all POSIX systems
 seq() {
 	i=$1
 	while [ "$i" -le $2 ]; do
@@ -60,30 +62,6 @@ showSingle() {
 	done
 }
 
-checkGroups() {
-	if [ -z $WMGROUPS ]; then
-		echo "groups root not defined"
-		exit 1
-	fi
-
-	if [ ! -d $WMSTATUS ]; then
-		mkdir $WMSTATUS
-	fi
-
-	for ws in $(seq 1 $NGROUPS); do
-		test -d $WMGROUPS/$ws || mkdir -p $WMGROUPS/$ws
-
-		if [ $(find $WMGROUPS/$ws -maxdepth 0 -type d -empty) ]; then
-			echo 0 > $WMSTATUS/$ws
-		fi
-	done
-
-	for file in $(find $WMGROUPS -type f); do
-		wid=$(basename $file)
-		wattr $wid || rm -f $file
-	done
-}
-
 groupStatus() {
 	for ws in $WMSTATUS/*; do
 		echo "$(basename $ws):$(cat $ws)" | tr '\n' ' '
@@ -91,14 +69,49 @@ groupStatus() {
 	echo
 }
 
-checkGroups
+nameGroup() {
+	echo $2 > $WMGROUPNAMES/$1
+}
 
+# directory checks
+if [ -z $WMROOT ]; then
+	echo "wm root not defined"
+	exit 1
+fi
+[ ! -d $WMGROUPS ] && mkdir -p $WMGROUPS
+[ ! -d $WMSTATUS ] && mkdir -p $WMSTATUS
+[ ! -d $WMGROUPNAMES ] && mkdir -p $WMGROUPNAMES
+
+# populate initial hierarchy
+for group in $(seq 1 $NGROUPS); do
+	test -d $WMGROUPS/$group || mkdir -p $WMGROUPS/$group
+
+	if [ $(find $WMGROUPS/$group -maxdepth 0 -type d -empty) ]; then
+		echo 0 > $WMSTATUS/$group
+	fi
+done
+if [ $(find $WMGROUPNAMES -empty) ]; then
+	for group in $(seq 1 $NGROUPS); do
+			echo $group > $WMGROUPNAMES/$group
+	done
+fi
+
+# remove non-group files from group root
+for maybeWid in $(find $WMGROUPS -type f); do
+	wattr $(basename $maybeWid) || rm -f $file
+done
+
+# parse args
 case $1 in
 	add) addToGroup `pfw` $2 ;;
 	rm) removeFromGroup `pfw` $2 ;;
 	toggle) toggleGroup $2 ;;
 	status) groupStatus ;;
 	single) showSingle $2 ;;
-	'') [ $# -eq 0 ] && tree $WMGROUPS ;;
+	rename) nameGroup $2 $3 ;;
+	'') [ $# -eq 0 ] && {
+		echo -n "Groups root: "
+		tree $WMGROUPS
+	} ;;
 	*) usage && exit 0 ;;
 esac
