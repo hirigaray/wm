@@ -98,7 +98,7 @@ fi
 
 # remove non-group files from group root
 for maybeWid in $(find $WMGROUPS -type f); do
-	wattr $(basename $maybeWid) || rm -f $file
+	wattr $(basename $maybeWid) || rm -f $maybeWid
 done
 
 # parse args
