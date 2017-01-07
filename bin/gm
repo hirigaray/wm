@@ -6,7 +6,7 @@
 . $XDG_CONFIG_HOME/wm.conf
 
 usage() {
-	echo 'usage: gm [add|rm|toggle|single] <group number>'
+	echo 'usage: gm [add|rm|toggle|single|name] <group number>'
 	echo 'gm rename <group number> <name>'
 }
 
@@ -108,6 +108,7 @@ case $1 in
 	toggle) toggleGroup $2 ;;
 	status) groupStatus ;;
 	single) showSingle $2 ;;
+	name) cat $WMGROUPNAMES/$2 ;;
 	rename) nameGroup $2 $3 ;;
 	'') [ $# -eq 0 ] && {
 		echo -n "Groups root: "
