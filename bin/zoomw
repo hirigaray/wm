@@ -9,7 +9,7 @@ h=$(wattr h $(lsw -r))
 w=$(wattr w $(lsw -r))
 
 # root dir for geometry files
-zoomdir="$WMROOT/zoom.d"
+zoomdir="$WMROOT/zoomed"
 [ ! -d $zoomdir ] && mkdir -p $zoomdir
 
 # this file is used to store the previous geometry of a window
