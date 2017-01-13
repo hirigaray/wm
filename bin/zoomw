@@ -15,6 +15,11 @@ zoomdir="$WMROOT/zoom.d"
 # this file is used to store the previous geometry of a window
 geomfile="$zoomdir/$(pfw)"
 
+# remove non-existing files from zoom root
+for maybeWid in $(find $zoomdir -type f); do
+	wattr $(basename $maybeWid) || rm -f $maybeWid
+done
+
 # if this file exists, that window is zoomed, so unzoom it and delete file
 if test -f $geomfile; then
 	wtp $(cat $geomfile) $1
