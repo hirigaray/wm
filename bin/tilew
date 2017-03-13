@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# copyright 2017 (c) z3bra & kori
+# arrange windows in a tiled pattern
+
+. $XDG_CONFIG_HOME/wm.conf
+
+# default values for gaps and master area
+MASTER=${MASTER:-900}
+
+# get current window id and its borderwidth
+PFW=$(pfw)
+
+# get root window's size (beware, multi-head setups...)
+ROOT=$(lsw -r)
+SW=$(wattr w $ROOT)
+SH=$(wattr h $ROOT)
+
+# get the number of windows to put in the stacking area
+MAX=$(lsw|grep -v $PFW|wc -l)
+
+# calculate usable screen size (without borders and gaps)
+SW=$((SW - GAP - 2*BORDERWIDTH))
+SH=$((SH - GAP - PANELHEIGHT))
+
+Y=$((0 + GAP + PANELHEIGHT))
+# put current window in master area
+wtp $GAP $Y $((MASTER - GAP - 2*BORDERWIDTH)) $((SH - GAP - 2*BORDERWIDTH)) $PFW
+
+# stack up all remaining windows on the right
+# note, 4 and 3 are arbitrary numbers to make sure the terminals don't have extra gaps
+X=$((MASTER + GAP))
+W=$((SW - MASTER - GAP - 4))
+H=$((SH / MAX - GAP - 2*BORDERWIDTH - 3))
+
+for wid in $(lsw|grep -v $PFW); do
+    wtp $X $Y $W $H $wid
+    Y=$((Y + H + GAP + 2*BORDERWIDTH + 3))
+done
